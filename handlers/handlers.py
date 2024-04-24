@@ -3,6 +3,7 @@ from aiogram.filters import CommandStart
 from aiogram.types import Message
 
 from keyboards.keyboards import geo_kb
+from weather import get_weather
 
 router = Router()
 
@@ -19,7 +20,7 @@ async def start_command(message: Message):
 async def location_message(message: Message):
     latitude = message.location.latitude
     longitude = message.location.longitude
-
+    await message.answer(get_weather(latitude, longitude))
 
 
 @router.message()

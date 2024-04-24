@@ -9,7 +9,7 @@ from handlers import handlers
 async def main():
     config: Config = load_config()
 
-    bot = Bot(token=config.tg_bot.token, parse_mode='HTML')
+    bot = Bot(token=config.tg_bot.bot_token, parse_mode='HTML')
     dp = Dispatcher()
 
     dp.include_router(handlers.router)
