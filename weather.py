@@ -4,17 +4,24 @@ from datetime import datetime
 from config.config import Config, load_config
 
 
-def get_data(latitude, longitude):
+def get_data(city, latitude, longitude):
     config: Config = load_config()
 
     url = (f'https://api.openweathermap.org/data/2.5/weather?lat={latitude}'
            f'&lon={longitude}&appid={config.openweathermap_key}&lang=ru&units=metric')
 
+    if city:
+        url = (f'https://api.openweathermap.org/data/2.5/weather?q={city},'
+               f'ru&appid={config.openweathermap_key}&lang=ru&units=metric')
+
     return requests.get(url).json()
 
 
-def get_weather(latitude, longitude):
-    data = get_data(latitude, longitude)
+def get_weather(city=None, latitude=None, longitude=None):
+    data = get_data(city, latitude, longitude)
+
+    if data['cod'] != 200:
+        return 'Населенный пункт не найден ☹'
 
     city = data['name']
     current_temp = data['main']['temp']
